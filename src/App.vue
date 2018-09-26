@@ -28,4 +28,17 @@ export default {
   -webkit-transition: width 2s;
   -o-transition: width 2s;
 }
+input{
+  width: 100%;
+  border-radius: 4rpx;
+  background: #fff;
+  border: 1px solid #eee;
+}
+textarea{
+  width: 100%;
+  border-radius: 4rpx;
+  background: #fff;
+  border: 1px solid #eee;
+}
+
 </style>

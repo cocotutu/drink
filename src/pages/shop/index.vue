@@ -23,21 +23,21 @@
             <div class="form_item">
               <div class="form_label">名称</div>
               <div class="form_value">
-                <input v-model="bannerForm.name" type="text"/>
+                <input v-model="bannerForm.name" type="text" />
               </div>
             </div>
             <div class="form_item">
               <div class="form_label">描述</div>
               <div class="form_value">
-                <textarea v-model="bannerForm.data" placeholder="请输入详细信息" type="text"></textarea>
+                <textarea v-model="bannerForm.content" placeholder="请输入详细信息" type="text"></textarea>
               </div>
             </div>
             <div class="form_item">
-              <button @click="uploadFile">上传图片</button>
-              <img v-show="bannerForm.url ? true : false" :src="bannerForm.url" alt="">
+              <button @click="uploadFile('bannerForm')">上传图片</button>
+              <img v-show="bannerForm.fileID ? true : false" :src="bannerForm.fileID" alt="">
             </div>
             <div class="form_item">
-              <button @click="saveBanner">保存</button>
+              <button @click="saveBanner('banner')">保存</button>
             </div>
           </div>
         </div>
@@ -70,12 +70,15 @@
             <div class="form_item">
               <div class="form_label">描述</div>
               <div class="form_value">
-                <textarea v-model="menuForm.data" placeholder="请输入详细信息" type="text"></textarea>
+                <textarea v-model="menuForm.content" placeholder="请输入详细信息" type="text"></textarea>
               </div>
             </div>
             <div class="form_item">
-              <button @click="uploadFile">上传图片</button>
-              <img v-show="menuForm.url ? true : false" :src="menuForm.url" alt="">
+              <button @click="uploadFile('menuForm')">上传图片</button>
+              <img v-show="menuForm.fileID ? true : false" :src="menuForm.fileID" alt="">
+            </div>
+            <div class="form_item">
+              <button @click="saveBanner('menu')">保存</button>
             </div>
           </div>
         </div>
@@ -86,6 +89,9 @@
 
 <script>
 import card from '@/components/card'
+import db from '../../db/index.js'
+import { chooseImage } from '../../utils/index.js'
+import { uploadFile } from '../../server.js'
 
 export default {
   data () {
@@ -99,14 +105,12 @@ export default {
       bannerForm: {
         name: '',
         content: '',
-        fileID: '',
-        url: ''
+        fileID: ''
       },
       menuForm: {
         name: '',
         content: '',
-        fileID: '',
-        url: ''
+        fileID: ''
       },
     }
   },
@@ -116,83 +120,59 @@ export default {
   },
   methods: {
     addTap (path) {
-      console.log(path)
-      console.log(this[path])
       this[path] = !this[path]
     },
-    saveBanner () {
-      let arr = []      
-      Object.entries(this.bannerForm).forEach(([key, value]) => {
+    async saveBanner (path) {
+      let arr = []
+      const values = this[`${path}Form`]
+      Object.entries(values).forEach(([key, value]) => {
         if( !value ) {
           arr.push(key)
         }
       })
+      console.log(arr)
       if( arr.length > 0 ) {
         wx.showToast({
-          title: `内容填写不完整!`
+          title: `内容填写不完整!${arr.join('.')}`
         })
       }else{
-        
+        const res = await db[path].add(values)
+        console.log(res)
+        this[path] =  {
+          name: '',
+          content: '',
+          fileID: ''
+        }
+        this[`${path}AddView`] = false
+        this.getBannerList()
       }
     },
     bindViewTap () {
       const url = '../logs/main'
       wx.navigateTo({ url })
     },
-    getUserInfo () {
-      // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-            }
-          })
-        }
-      })
+    async uploadFile(path) {
+      if( !path ){
+        return
+      }
+      const choseRes = await chooseImage()
+      console.log(choseRes)
+      const res = await uploadFile(choseRes)
+      this[path].fileID = res
     },
-    uploadFile() {
-      wx.chooseImage({
-        success: chooseResult => {
-          // 将图片上传至云存储空间
-          wx.cloud.uploadFile({
-            // 指定上传到的云路径
-            cloudPath: 'my-photo.png',
-            // 指定要上传的文件的小程序临时文件路径
-            filePath: chooseResult.tempFilePaths[0],
-            // 成功回调
-            success: res => {
-              console.log('上传成功', res)
-              this.bannerForm.fileID = res.fileID
-              this.bannerForm.url = res.fileID
-
-            },
-          })
-        }
-      })
-    },
-    getBannerList (){
-      wx.cloud.init()
-      const db = wx.cloud.database()
-      const bannerList = db.collection('bannerList')
-      console.log('yes')
-      bannerList.get({
-        success: (res) => {
-          // res.data 包含该记录的数据
-          console.log(res.data)
-          this.data.bannerList=res.data
-        }
-      })
+    async getBannerList (){
+      console.log('load banner list')
+      const res = await db.banner.getList()
+      if( res.errMsg.includes('ok') ) {
+        this.bannerList = res.data
+      }
     }
   },
   created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
     this.getBannerList()
   },
   updated() {
-    console.log(this.$data)
-  }
+  },
 }
 </script>
 

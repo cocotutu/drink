@@ -1,14 +1,10 @@
 import db from './db.js'
-import bannerList from './bannerList'
-import menuList from './menuList'
-import goodsList from './goodsList'
+import banner from './bannerList'
+import menu from './menuList'
+import goods from './goodsList'
 
 export default {
-    bannerList,
-    menuList,
-    goodsList
+  banner,
+  menu,
+  goods
 }
-
-
-
-

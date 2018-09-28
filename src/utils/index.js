@@ -3,6 +3,22 @@ function formatNumber (n) {
   return str[1] ? str : `0${str}`
 }
 
+export function chooseImage() {
+  return new Promise((resolve, reject) => {
+    wx.chooseImage({
+      success: (chooseResult) => {
+        resolve(chooseResult)
+      },
+      fail: res => {
+        wx.showToast({
+          title: '选择文件失败！'
+        })
+        reject(res)
+      }
+    })
+  })
+}
+
 export function formatTime (date) {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -22,3 +38,5 @@ export default {
   formatNumber,
   formatTime
 }
+
+

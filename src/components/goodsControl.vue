@@ -1,7 +1,7 @@
 <template>
   <div class="menu_item">
     <div class="menu_item_title">
-      <button>list 首页轮播图</button>
+      <button>详细商品</button>
     </div>
     <div class="menu_item_content">
       <ul class="have_list">

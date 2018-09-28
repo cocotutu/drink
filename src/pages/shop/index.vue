@@ -83,6 +83,47 @@
           </div>
         </div>
       </div>
+      <div class="menu_item">
+        <div class="menu_item_title">
+          <button>goods 商品信息</button>
+        </div>
+        <div class="menu_item_content">
+          <ul class="have_list">
+            <li class="have_list_item" v-for="(item, index) in goodsList" :key="index">
+              {{item.name}}
+            </li>
+            <li class="have_list_item align_center" v-show="goodsList.length > 0 ? false : true">
+              <span>暂无列表</span>
+            </li>
+          </ul>
+          <div class="form_add_btn">
+            <button @click="addTap('goodsAddView')">
+              {{goodsAddView ? '取消' : '添加'}}
+            </button>
+          </div>
+          <div class="form" v-show="goodsAddView">
+            <div class="form_item">
+              <div class="form_label">名称</div>
+              <div class="form_value">
+                <input v-model="goodsForm.name" type="text"/>
+              </div>
+            </div>
+            <div class="form_item">
+              <div class="form_label">描述</div>
+              <div class="form_value">
+                <textarea v-model="goodsForm.content" placeholder="请输入详细信息" type="text"></textarea>
+              </div>
+            </div>
+            <div class="form_item">
+              <button @click="uploadFile('goodsForm')">上传图片</button>
+              <img v-show="goodsForm.fileID ? true : false" :src="goodsForm.fileID" alt="">
+            </div>
+            <div class="form_item">
+              <button @click="saveBanner('goods')">保存</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -99,15 +140,22 @@ export default {
       motto: 'Hello World',
       userInfo: {},
       bannerList: [],
+      menuList: [],
+      goodsList: [],
       bannerAddView: false,
       menuAddView: false,
-      menuList: [],
+      goodsAddView: false,
       bannerForm: {
         name: '',
         content: '',
         fileID: ''
       },
       menuForm: {
+        name: '',
+        content: '',
+        fileID: ''
+      },
+      goodsForm: {
         name: '',
         content: '',
         fileID: ''
@@ -130,21 +178,19 @@ export default {
           arr.push(key)
         }
       })
-      console.log(arr)
       if( arr.length > 0 ) {
         wx.showToast({
           title: `内容填写不完整!${arr.join('.')}`
         })
       }else{
         const res = await db[path].add(values)
-        console.log(res)
-        this[path] =  {
+        this[`${path}Form`] =  {
           name: '',
           content: '',
           fileID: ''
         }
         this[`${path}AddView`] = false
-        this.getBannerList()
+        this.getList(path)
       }
     },
     bindViewTap () {
@@ -156,20 +202,21 @@ export default {
         return
       }
       const choseRes = await chooseImage()
-      console.log(choseRes)
       const res = await uploadFile(choseRes)
       this[path].fileID = res
     },
-    async getBannerList (){
+    async getList (path){
       console.log('load banner list')
-      const res = await db.banner.getList()
+      const res = await db[path].getList()
       if( res.errMsg.includes('ok') ) {
-        this.bannerList = res.data
+        this[`${path}List`] = res.data
       }
     }
   },
   created () {
-    this.getBannerList()
+    this.getList('banner')
+    this.getList('menu')
+    this.getList('goods')
   },
   updated() {
   },

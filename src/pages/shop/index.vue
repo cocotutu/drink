@@ -22,9 +22,7 @@ export default {
     return {
     }
   },
-
   components: {
-    card,
     bannerControl,
     menuControl,
     goodsControl
@@ -36,7 +34,7 @@ export default {
     
   },
   updated() {
-  },
+  }
 }
 </script>
 

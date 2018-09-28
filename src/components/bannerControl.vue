@@ -6,7 +6,7 @@
     <div class="menu_item_content">
       <ul class="have_list">
         <li class="have_list_item" v-for="(item, index) in list" :key="index">
-          {{item.name}}
+          <controlItem :data="item" path="banner" :load="getList"></controlItem>
         </li>
         <li class="have_list_item align_center" v-show="list.length > 0 ? false : true">
           <span>暂无列表</span>
@@ -47,8 +47,12 @@ import db from '../db/index.js'
 import { chooseImage } from '../utils/index.js'
 import { uploadFile } from '../server.js'
 
+import controlItem from './controlItem'
+
 export default {
-  props: ['text'],
+  components: {
+    controlItem
+  },
   data (){
     return {
       form: {
@@ -106,7 +110,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .menu_item{
   width: 100%;
   height: auto;

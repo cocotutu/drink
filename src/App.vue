@@ -30,6 +30,7 @@ export default {
 }
 input{
   width: 100%;
+  padding: 20rpx;
   border-radius: 4rpx;
   background: #fff;
   border: 1px solid #eee;

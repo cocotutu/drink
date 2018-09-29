@@ -27,7 +27,7 @@
         <div class="form_item">
           <div class="form_label">描述</div>
           <div class="form_value">
-            <textarea v-model="form.content" placeholder="请输入详细信息" type="text"></textarea>
+            <input v-model="form.content" placeholder="请输入详细信息" type="text" />>
           </div>
         </div>
         <div class="form_item">

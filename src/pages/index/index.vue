@@ -1,73 +1,75 @@
 <template>
   <div class="container">
-    <div class="link_to_shop">
-      <button @click="linkToShop">商户管理界面</button>
+    <bannerSwiper :data="bannerList"></bannerSwiper>
+    <div class="main">
+      <div class="menu_item">
+        <div class="menu_item_container">
+          <span class="menu_item_container_tit">现在下单</span>
+          <span class="menu_item_container_icon">
+            <img src="../../../static/img/coffee.png"/>
+          </span>
+        </div>
+      </div>
+      <div class="hot_top">
+        <goodsList :list="hotList" title="热门产品" icon="cloud://xiaowu-ce41fe.7869-xiaowu-ce41fe/setting/推荐.png"></goodsList>
+      </div>
+      <div class="recommend_top"></div>
+      <div class="menu_item">
+        <div class="menu_item_container" @click="linkToShop">
+          <span class="menu_item_container_tit">商户设置</span>
+          <span class="menu_item_container_icon">
+            <img src="../../../static/img/setting.png"/>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+
+
+import db from '@/db'
+
+
 import card from '@/components/card'
+import bannerSwiper from '@/components/bannerSwiper'
+import goodsList from '@/components/goodsList'
 
 export default {
+  components: {
+    bannerSwiper,
+    card,
+    goodsList
+  },
   data () {
     return {
       motto: 'Hello World',
-      userInfo: {}
+      userInfo: {},
+      bannerList: [],
+      hotList: []
     }
   },
-
-  components: {
-    card
-  },
-
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
-    },
-    getUserInfo () {
-      // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-            }
-          })
-        }
-      })
-    },
-    clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
-    },
-    uploadFile() {
-      wx.chooseImage({
-        success: chooseResult => {
-          // 将图片上传至云存储空间
-          wx.cloud.uploadFile({
-            // 指定上传到的云路径
-            cloudPath: 'my-photo.png',
-            // 指定要上传的文件的小程序临时文件路径
-            filePath: chooseResult.tempFilePaths[0],
-            // 成功回调
-            success: res => {
-              console.log('上传成功', res)
-            },
-          })
-        }
-      })
-    },
     linkToShop() {
       wx.navigateTo({
         url: '../shop/main'
       })
+    },
+    async loadBannerList () {
+      const res = await db.banner.getList()
+      console.log(res)
+      this.bannerList = res.data
+    },
+    async loadHotList () {
+      const res = await db.hot.getList()
+      this.hotList = res.data
+      console.log(res.data)
     }
   },
-
   created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
+    this.loadBannerList()
+    this.loadHotList()
   }
 }
 </script>
@@ -78,5 +80,39 @@ export default {
   height: auto;
   overflow: hidden;
   background: #eee;
+}
+.main{
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.menu_item{
+  height: auto;
+  overflow: hidden;
+  padding: 0rpx 40rpx;
+}
+.menu_item_container{
+  padding: 20rpx 0rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+.menu_item_container_tit{
+  color: #8a8a8a;
+}
+.menu_item_container_icon {
+  display: flex;
+  align-items: center;
+}
+img{
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 100%;
+  border: 5rpx solid #eee;
 }
 </style>

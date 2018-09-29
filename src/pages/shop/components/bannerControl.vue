@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import db from '../db/index.js'
-import { chooseImage } from '../utils/index.js'
-import { uploadFile } from '../server.js'
+import db from '@/db/index.js'
+import { chooseImage } from '@/utils/index.js'
+import { uploadFile } from '@/server.js'
 
 import controlItem from './controlItem'
 

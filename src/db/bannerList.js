@@ -12,7 +12,6 @@ class banner {
   }
 
   static getList() {
-    console.log('resssss')
     return bannerList.get()
   }
 

@@ -28,6 +28,7 @@
 
 <script>
 
+import { mapActions, mapState } from 'vuex'
 
 import db from '@/db'
 
@@ -58,18 +59,23 @@ export default {
     },
     async loadBannerList () {
       const res = await db.banner.getList()
-      console.log(res)
       this.bannerList = res.data
     },
     async loadHotList () {
       const res = await db.hot.getList()
       this.hotList = res.data
-      console.log(res.data)
-    }
+    },
+    ...mapActions(['getUser'])
   },
+  computed: mapState({
+    user (state) {
+      return state.userInfo
+    }
+  }),
   created () {
     this.loadBannerList()
     this.loadHotList()
+    this.getUser()
   }
 }
 </script>

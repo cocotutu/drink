@@ -12,7 +12,6 @@ class hot {
   }
 
   static getList() {
-    console.log('resssss')
     return hotList.get()
   }
 

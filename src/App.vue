@@ -5,8 +5,6 @@ export default {
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
-    console.log('app created and cache logs by setStorageSync')
   }
 }
 </script>
@@ -30,10 +28,12 @@ export default {
 }
 input{
   width: 100%;
+  height: 90rpx;;
   padding: 20rpx;
   border-radius: 4rpx;
   background: #fff;
   border: 1px solid #eee;
+  box-sizing: border-box;
 }
 textarea{
   width: 100%;
@@ -41,5 +41,7 @@ textarea{
   background: #fff;
   border: 1px solid #eee;
 }
-
+div{
+  box-sizing: border-box;
+}
 </style>

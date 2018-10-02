@@ -9,7 +9,6 @@
  * - 经过微信鉴权直接可信的用户唯一标识 openid 
  * 
  */
-console.log('yessss')
 wx.cloud.init()
 exports.main = (event, context) => {
   console.log(event)

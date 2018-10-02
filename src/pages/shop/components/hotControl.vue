@@ -77,7 +77,6 @@ export default {
           arr.push(key)
         }
       })
-      console.log(values)
       if( arr.length > 0 ) {
         wx.showToast({
           title: `内容填写不完整!${arr.join('.')}`
@@ -99,7 +98,6 @@ export default {
       this.form.fileID = res
     },
     async getList (){
-      console.log('load hot list')
       const res = await db.hot.getList()
       if( res.errMsg.includes('ok') ) {
         this.list = res.data

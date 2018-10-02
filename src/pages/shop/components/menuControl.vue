@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 import db from '@/db/index.js'
 import { chooseImage } from '@/utils/index.js'
 import { uploadFile } from '@/server.js'
@@ -68,6 +70,7 @@ export default {
   methods: {
     addTap () {
       this.addVisible = !this.addVisible
+      this.changeModelVisible('menu')
     },
     async saveBanner () {
       let arr = []
@@ -77,7 +80,6 @@ export default {
           arr.push(key)
         }
       })
-      console.log(values)
       if( arr.length > 0 ) {
         wx.showToast({
           title: `内容填写不完整!${arr.join('.')}`
@@ -104,13 +106,13 @@ export default {
       if( res.errMsg.includes('ok') ) {
         this.list = res.data
       }
-    }
+    },
+    ...mapMutations(['changeModelVisible'])
   },
   created () {
     this.getList()
   },
   updated() {
-    console.log(this.$data)
   },
 }
 </script>

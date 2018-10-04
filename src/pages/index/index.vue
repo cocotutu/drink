@@ -65,7 +65,7 @@ export default {
       const res = await db.hot.getList()
       this.hotList = res.data
     },
-    ...mapActions(['getUser'])
+    ...mapActions(['getUser', 'getMenuList'])
   },
   computed: mapState({
     user (state) {
@@ -76,6 +76,7 @@ export default {
     this.loadBannerList()
     this.loadHotList()
     this.getUser()
+    this.getMenuList()
   }
 }
 </script>

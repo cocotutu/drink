@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <addMenuItem></addMenuItem>
+    <addGoodsItem></addGoodsItem>
     <div class="menu">
       <bannerControl title="轮播图"></bannerControl>
       <menuControl title="菜单类别"></menuControl>
@@ -22,6 +23,7 @@ import menuControl from './components/menuControl'
 import goodsControl from './components/goodsControl'
 import hotControl from './components/hotControl'
 import addMenuItem from './components/addMenuItem'
+import addGoodsItem from './components/addGoodsItem'
 
 export default {
   data () {
@@ -33,7 +35,8 @@ export default {
     menuControl,
     goodsControl,
     hotControl,
-    addMenuItem
+    addMenuItem,
+    addGoodsItem
   },
   methods: {
   
@@ -55,7 +58,7 @@ export default {
 .menu{
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
   position: absolute;
   left: 0;
   top: 0;

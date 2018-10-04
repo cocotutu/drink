@@ -18,16 +18,17 @@
         <img v-show="form.fileID ? true : false" :src="form.fileID" alt="">
       </div>
       <div class="footer">
-        <button class="confirm" type="primary">确定</button>
-        <button class="cancel">取消</button>
+        <button class="confirm" type="primary" @click="saveBanner">确定</button>
+        <button class="cancel" @click="changeModelVisible">取消</button>
       </div>
     </div>
   </div>  
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
+import db from '@/db/index.js'
 import { uploadFile } from '@/server.js'
 import { chooseImage } from '@/utils'
 
@@ -47,7 +48,31 @@ export default {
       const choseRes = await chooseImage()
       const res = await uploadFile(choseRes)
       this.form.fileID = res
-    }
+    },
+    async saveBanner () {
+      let arr = []
+      const values = this.form
+      Object.entries(values).forEach(([key, value]) => {
+        if( !value ) {
+          arr.push(key)
+        }
+      })
+      if( arr.length > 0 ) {
+        wx.showToast({
+          title: `内容填写不完整!${arr.join('.')}`
+        })
+      }else{
+        const res = await db.menu.add(values)
+        console.log(res)
+        this.form =  {
+          name: '',
+          content: '',
+          fileID: ''
+        }
+        this.changeModelVisible('')
+      }
+    },
+    ...mapMutations(['changeModelVisible'])
   },
   computed: {
     ...mapState({

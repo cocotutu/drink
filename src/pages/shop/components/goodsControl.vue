@@ -14,35 +14,17 @@
       </ul>
       <div class="form_add_btn">
         <button @click="addTap">
-          {{addVisible ? '取消' : '添加'}}
+          添加
         </button>
-      </div>
-      <div v-show="addVisible" class="form">
-        <div class="form_item">
-          <div class="form_label">名称</div>
-          <div class="form_value">
-            <input v-model="form.name" type="text" />
-          </div>
-        </div>
-        <div class="form_item">
-          <div class="form_label">描述</div>
-          <div class="form_value">
-            <input v-model="form.content" placeholder="请输入详细信息" type="text" />
-          </div>
-        </div>
-        <div class="form_item">
-          <button @click="uploadFile">上传图片</button>
-          <img v-show="form.fileID ? true : false" :src="form.fileID" alt="">
-        </div>
-        <div class="form_item">
-          <button @click="save">保存</button>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
+import { mapMutations, mapState } from 'vuex'
+
 import db from '@/db/index.js'
 import { chooseImage } from '@/utils/index.js'
 import { uploadFile } from '@/server.js'
@@ -56,54 +38,20 @@ export default {
   },
   data (){
     return {
-      form: {
-        name: '',
-        content: '',
-        fileID: ''
-      },
-      list: [],
-      addVisible: false,
+      list: []
     }
   },
   methods: {
     addTap () {
-      this.addVisible = !this.addVisible
-    },
-    async save () {
-      let arr = []
-      const values = this.form
-      Object.entries(values).forEach(([key, value]) => {
-        if( !value ) {
-          arr.push(key)
-        }
-      })
-      if( arr.length > 0 ) {
-        wx.showToast({
-          title: `内容填写不完整!${arr.join('.')}`
-        })
-      }else{
-        const res = await db.goods.add(values)
-        this.form =  {
-          name: '',
-          content: '',
-          fileID: ''
-        }
-        this.addVisible = false
-        this.getList()
-      }
-    },
-    async uploadFile() {
-      const choseRes = await chooseImage()
-      const res = await uploadFile(choseRes)
-      this.form.fileID = res
+      this.changeModelVisible('goods')
     },
     async getList (){
-      console.log('load goods list')
       const res = await db.goods.getList()
       if( res.errMsg.includes('ok') ) {
         this.list = res.data
       }
-    }
+    },
+    ...mapMutations(['changeModelVisible'])
   },
   created () {
     this.getList()

@@ -16,7 +16,11 @@ export default {
       value: 'hot'
     }
   ],
+  showMenuId: null,
   menuList: [],
+  menuItemList: {
+
+  },
   shop: {
     visibleModel: ''
   }

@@ -8,7 +8,10 @@ const _ = db.command
 class goods {
   static add(data) {
     return goodsList.add({
-      data
+      data,
+      fail: (res) => wx.showToast({
+        title: '创建失败!'
+      })
     })
   }
 

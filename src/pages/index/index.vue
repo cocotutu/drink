@@ -76,7 +76,7 @@ export default {
     this.loadBannerList()
     this.loadHotList()
     this.getUser()
-    this.getMenuList()
+    this.getMenuList('init')
   }
 }
 </script>

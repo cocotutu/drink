@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="form_item">
-        <picker class="weui-btn" @change="pickerChange" :value="form.parent" :range="menuListName">
+        <picker class="weui-btn" @change="pickerChange"  :range="menuListName">
           <div class="select_container">
             <div class="form_label">
               所属分类
@@ -52,7 +52,7 @@
       </div>
       <div class="footer">
         <button class="confirm" type="primary" @click="save">确定</button>
-        <button class="cancel" @click="changeModelVisible">取消</button>
+        <button class="cancel" @click="changeModelVisible()">取消</button>
       </div>
     </div>
   </div>  
@@ -121,8 +121,11 @@ export default {
       this.form.fileID = res
     },
     async save () {
+      console.log(6666)
       if( this.check() ){
+        console.log(this.form)
         const res = await db.goods.add(this.form)
+        console.log(res)
         this.form =  initForm
         this.changeModelVisible()
       }
@@ -140,6 +143,7 @@ export default {
         wx.showToast({
           title: '没有选择父类!'
         })
+        return false
       }
       const typeHave = form.type.find(item => item.checked === true)
       if( !typeHave ){
@@ -195,7 +199,7 @@ export default {
     pickerChange (e){
       const index = parseInt(e.mp.detail.value)
       this.form.parent = this.menuList[index]
-      this.form.parentId = this.menuList[index]['_id']
+      this.form.parentId = this.menuList[index]['id']
     },
     ...mapMutations(['changeModelVisible'])
   },

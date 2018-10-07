@@ -3,7 +3,7 @@
   "pages": [
     "pages/index/main",
     "pages/logs/main",
-    "pages/counter/main",
+    "pages/category/main",
     "pages/shop/main"
   ],
   "window": {
@@ -25,7 +25,7 @@
         "selectedIconPath": "static/img/dds.png"
       },
       {
-        "pagePath": "pages/counter/main",
+        "pagePath": "pages/category/main",
         "text": "点餐",
         "iconPath": "static/img/gwc.png",
         "selectedIconPath": "static/img/gwcs.png"

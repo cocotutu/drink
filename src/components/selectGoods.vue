@@ -33,8 +33,8 @@
               v-for="(item, index) in goods.temp" 
               v-if="item.checked" 
               :key="index" 
-              @click="sizeClick(item)"
-              :class="item.id == size ? 'selected': ''"
+              @click="tmpClick(item)"
+              :class="item.value == temp ? 'selected': ''"
             >
               {{item.name}}
             </li>
@@ -45,8 +45,25 @@
         </div>
       </div>
       <div class="footer">
-        <button class="confirm" type="primary" @click="save">确定</button>
-        <button class="cancel" @click="changeModelVisible()">取消</button>
+        <div class="shopCar">
+          <div class="selected_value">
+            <div class="sum_price">
+              ￥ 100
+            </div>
+            <div class="remark">
+              标准美式
+            </div>
+          </div>
+          <div class="count">
+            <div class="minus">-</div>
+            <div class="num">5</div>
+            <div class="add">+</div>
+          </div>
+        </div>
+        <div class="footer_btn">
+          <button class="confirm" type="primary" @click="save">确定</button>
+          <button class="cancel" @click="changeModelVisible()">取消</button>
+        </div>
       </div>
     </div>
   </div>  
@@ -58,7 +75,8 @@ export default {
   props: ['visible', 'goods', 'callBack'],
   data (){
     return {
-      size: null
+      size: null,
+      temp: null
     }
   },
   methods: {
@@ -66,8 +84,10 @@ export default {
       this.callBack()
     },
     sizeClick (item){
-      console.log(item)
       this.size = item.id
+    },
+    tmpClick (item){
+      this.temp = item.value
     }
   },
   computed: {
@@ -88,7 +108,7 @@ export default {
   left: 0;
   top: 0;
   z-index: 1000;
-  padding: 3%;
+  padding: 10%;
   box-sizing: border-box;
   overflow: auto;
 }
@@ -96,7 +116,7 @@ export default {
   height: auto;
   background: #fff;
   overflow: hidden;
-  padding: 40rpx 0rpx;
+  padding: 40rpx 0rpx 0rpx 0rpx;
   display: flex;
   flex-direction: column;
   .head{
@@ -150,21 +170,75 @@ export default {
           float: left;
           font-size: 24rpx;
           color: #8a8a8a;
-          padding: 8rpx 30rpx;
+          padding: 8rpx 25rpx;
           background: #fff;
           border: 1rpx solid #eee;
           border-radius: 28rpx;
-          margin: 0 20rpx;
+          margin: 0 15rpx;
           text-align: center;
+        }
+        .selected{
+          background: #09bb07;
+          color: #fff;
         }
       }
     }
   }
   .footer{
     width: 100%;
-    height: 80rpx;
+    height: auto;
+    overflow: hidden;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    .shopCar{
+      width: 100%;
+      height: auto;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      .selected_value{
+        height: auto;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        .sum_price{
+          width: 100%;
+          padding: 8rpx 10rpx;
+          font-size: 28rpx;
+          box-sizing: border-box;
+          color: #e64340;
+        }
+        .remark{
+          width: 100%;
+          padding: 8rpx 10rpx;
+          font-size: 24rpx;
+          box-sizing: border-box;
+          color: #8a8a8a;
+        }
+      }
+      .count{
+        width: 210rpx;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        & > div{
+          width: 50rpx;
+          height: 50rpx;
+          border: 2rpx solid #09bb07;
+          border-radius: 100%;
+          color: #09bb07;
+          text-align: center;
+        }
+      }
+    }
+    .footer_btn{
+      width: 100%;
+      height: 80rpx;
+      display: flex;
+      flex-direction: row;
+    }
   }
 }
 

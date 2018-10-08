@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     addTap () {
-      this.changeModelVisible('goods')
+      this.changeModelVisible('menu')
     },
     ...mapMutations(['changeModelVisible'])
   },

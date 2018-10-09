@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <selectGoods :visible="visible" :goods="selectData" :callBack="goodsSelected"/>
+    <selectGoods v-if="visible" :visible="visible" :goods="selectData" :callBack="goodsSelected"/>
     <div class="menu">
       <ul>
         <li class="menu_item"  

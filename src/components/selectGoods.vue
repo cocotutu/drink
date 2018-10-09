@@ -48,16 +48,16 @@
         <div class="shopCar">
           <div class="selected_value">
             <div class="sum_price">
-              ￥ 100
+              ￥ {{sumPrice}}
             </div>
             <div class="remark">
-              标准美式
+              {{remark}}
             </div>
           </div>
           <div class="count">
-            <div class="minus">-</div>
-            <div class="num">5</div>
-            <div class="add">+</div>
+            <div class="minus" @click="minusClick">-</div>
+            <div class="num">{{num}}</div>
+            <div class="add" @click="addClick">+</div>
           </div>
         </div>
         <div class="footer_btn">
@@ -76,7 +76,8 @@ export default {
   data (){
     return {
       size: null,
-      temp: null
+      temp: null,
+      num: 0,
     }
   },
   methods: {
@@ -88,10 +89,33 @@ export default {
     },
     tmpClick (item){
       this.temp = item.value
+    },
+    minusClick (){
+      const num = this.num
+      this.num = num - 1
+    },
+    addClick (){
+      const num = this.num
+      this.num = num + 1
     }
   },
   computed: {
-    
+    sumPrice (){
+      if( this.size === null ) return 0
+      const result = this.goods.type.find(item => item.id == this.size)
+      console.log(result)
+      const singlePrice = parseFloat(result.value)
+      return this.num  * singlePrice
+    },
+    remark (){
+      const temp = this.goods.temp.find(item => item.value ==  this.temp)
+      const size = this.goods.type.find(item => item.id == this.size)
+      const arr = []
+      arr.push(this.goods.name)
+      if( size ) arr.push(size.name)
+      if( temp ) arr.push(temp.name)
+      return arr.join('/')
+    }
   },
 }
 </script>
@@ -238,6 +262,7 @@ export default {
           text-align: center;
         }
         .num{
+            line-height: 52rpx;
             font-size: 32rpx;
             color: #e64340;
             border: none;

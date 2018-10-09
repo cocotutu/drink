@@ -61,7 +61,7 @@
           </div>
         </div>
         <div class="footer_btn">
-          <button class="confirm" type="primary" @click="save">确定</button>
+          <button class="confirm" type="primary" @click="save">加入购物车</button>
           <button class="cancel" @click="changeModelVisible()">取消</button>
         </div>
       </div>
@@ -119,6 +119,7 @@ export default {
   padding: 40rpx 0rpx 0rpx 0rpx;
   display: flex;
   flex-direction: column;
+  border-radius: 10rpx;
   .head{
     width: 100%;
     height: 200rpx;
@@ -196,6 +197,9 @@ export default {
       overflow: hidden;
       display: flex;
       flex-direction: row;
+      box-sizing: border-box;
+      padding: 6rpx 10rpx;
+      border-bottom: 1rpx solid #eee;
       .selected_value{
         height: auto;
         flex: 1;
@@ -217,7 +221,7 @@ export default {
         }
       }
       .count{
-        width: 210rpx;
+        width: 180rpx;
         height: auto;
         display: flex;
         flex-direction: row;
@@ -227,9 +231,16 @@ export default {
           width: 50rpx;
           height: 50rpx;
           border: 2rpx solid #09bb07;
+          line-height: 43rpx;
+          font-size: 44rpx;
           border-radius: 100%;
           color: #09bb07;
           text-align: center;
+        }
+        .num{
+            font-size: 32rpx;
+            color: #e64340;
+            border: none;
         }
       }
     }
@@ -238,6 +249,14 @@ export default {
       height: 80rpx;
       display: flex;
       flex-direction: row;
+      padding: 10rpx;
+      box-sizing: border-box;
+      button{
+          height: 60rpx;
+          line-height: 60rpx;
+          font-size: 28rpx;
+          padding: 0rpx 30rpx;
+      }
     }
   }
 }

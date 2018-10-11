@@ -97,6 +97,34 @@ export default {
     addClick (){
       const num = this.num
       this.num = num + 1
+    },
+    save (){
+      console.log('ssss')
+      console.log(this.goods)
+      if( this.check() ){
+        const value = {
+          id: this.goods['_id'],
+          size: this.size,
+          temp: this.temp,
+          num: this.num,
+        }
+      }
+    },
+    check (){
+      const { size, temp, num } = this
+      if( size == null ) {
+        wx.showToast({title: '请选择规格!'}) 
+        return false
+      }
+      if( temp == null ) {
+        wx.showToast({title: '请选择温度!'}) 
+        return false
+      }
+      if( num <= 0 ) {
+        wx.showToast({title: '杯数需大于0!'}) 
+        return false
+      }
+      return true
     }
   },
   computed: {

@@ -23,5 +23,13 @@ export default {
   changeModelVisible (state, value = ""){
     console.log(value, 'changeModelVisible')
     state.shop.visibleModel = value
+  },
+  updateShopCar (state, value=[]){
+    state.shopCar = value
+  },
+  addShopCar (state, value){
+    if( value ){
+      state.shopCar.push(value)
+    }
   }
 }

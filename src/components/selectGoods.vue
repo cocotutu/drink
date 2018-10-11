@@ -108,6 +108,7 @@ export default {
           temp: this.temp,
           num: this.num,
         }
+        this.callBack(value)
       }
     },
     check (){

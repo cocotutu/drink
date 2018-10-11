@@ -36,17 +36,19 @@
           </div>
         </li>
       </ul>
-    </div>    
+    </div>
+    <div class="shop_car" @click="linkTo">
+      <div class="icon">车</div>
+    </div>   
   </div>
 </template>
 
 <script>
 
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import db from '@/db'
 
 import selectGoods from '@/components/selectGoods'
-console.log(selectGoods)
 export default {
   components: {
     selectGoods
@@ -72,9 +74,6 @@ export default {
       console.log(item)
       this.loadGoosList(item.id)
     },
-    ...mapActions({
-      loadGoosList: 'getSingleMenuItem'
-    }),
     addItem (item){
       console.log(item)
       this.visible = true
@@ -83,7 +82,20 @@ export default {
     goodsSelected (data){
       console.log(data)
       this.visible = false
-    }
+      this.addShopCar(data)
+    },
+    linkTo() {
+      console.log('yes')
+      wx.navigateTo({
+        url: '../shopCar/main'
+      })
+    },
+    ...mapActions({
+      loadGoosList: 'getSingleMenuItem'
+    }),
+    ...mapMutations({
+      addShopCar: 'addShopCar'
+    })
   },
   created() {
     if( this.menuList && this.menuList.length > 0 ){
@@ -210,6 +222,11 @@ export default {
         }
       }
     }
+  }
+  .shop_car{
+    position: fixed;
+    bottom: 30rpx;
+    right: 100rpx;
   }
 }
 

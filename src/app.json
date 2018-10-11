@@ -2,9 +2,10 @@
   "cloud": true,
   "pages": [
     "pages/index/main",
-    "pages/logs/main",
+    "pages/shopCar/main",
     "pages/category/main",
-    "pages/shop/main"
+    "pages/shop/main",
+    "pages/host/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -31,7 +32,7 @@
         "selectedIconPath": "static/img/gwcs.png"
       },
       {
-        "pagePath": "pages/logs/main",
+        "pagePath": "pages/host/main",
         "text": "我的",
         "iconPath": "static/img/user.png",
         "selectedIconPath": "static/img/users.png"

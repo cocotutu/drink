@@ -16,6 +16,7 @@ export default {
       value: 'hot'
     }
   ],
+  shopCar: [],
   showMenuId: null,
   menuList: [],
   menuItemList: {

@@ -85,7 +85,6 @@ export default {
       this.addShopCar(data)
     },
     linkTo() {
-      console.log('yes')
       wx.navigateTo({
         url: '../shopCar/main'
       })

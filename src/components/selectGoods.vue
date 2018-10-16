@@ -99,14 +99,17 @@ export default {
       this.num = num + 1
     },
     save (){
-      console.log('ssss')
-      console.log(this.goods)
       if( this.check() ){
+        
+        const result = this.goods.type.find(item => item.id == this.size)
+        const singlePrice = parseFloat(result.value)
         const value = {
           id: this.goods['_id'],
           size: this.size,
           temp: this.temp,
           num: this.num,
+          detail: this.goods,
+          price: singlePrice
         }
         this.callBack(value)
       }

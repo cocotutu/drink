@@ -5,7 +5,16 @@
         <div class="checkbox">
           <switch type="checkbox" @change="handleSelect(item)" :checked="checkedList.includes(item.id)"></switch>
         </div>
-        <div class="detail">{{item.detail.name}}</div>
+        <div class="detail">
+          <div class="name">
+            {{item.detail.name}}
+          </div>
+          <div class="size_temp">
+            <card :text="size(item)"></card>
+            <span>/</span>
+            <card :text="temp(item)"></card>
+          </div>
+        </div>
         <div class="price">￥{{item.price}}</div>
         <div class="count">
           <div class="minus" @click="minusClick">-</div>
@@ -23,9 +32,11 @@
 <script>
 
 import { mapState } from 'vuex'
+import card from '@/components/card'
 
 export default {
   components: {
+    card
   },
 
   data () {
@@ -48,7 +59,25 @@ export default {
     minusClick (){
       const num = this.num
       this.num = num - 1
-    }
+    },
+    size (content){
+      const { type } = content.detail
+      const result =  type.find(item => item.id == content.size)
+      console.log(result, 'content')
+      if( result ){
+        return result.name
+      }
+      return ''
+      
+    },
+    temp (content){
+      const { temp } = content.detail
+      const result = temp.find(item => item.value == content.temp)
+      if( result ){
+        return result.name
+      }
+      return ''
+    },
   },
   created () {
     console.log(this.shopCar, 'shopCar')

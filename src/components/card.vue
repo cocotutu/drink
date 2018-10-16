@@ -1,19 +1,18 @@
 <template>
-  <div>
-    <p class="card">
-      {{text}}
-    </p>
-  </div>
+  <span>
+    {{text}}
+  </span>
 </template>
 
 <script>
 export default {
-  props: ['text']
+  props: ['text'],
+  created() {
+    console.log(this.text)
+  },
 }
 </script>
 
 <style>
-.card {
-  padding: 10px;
-}
+
 </style>

@@ -64,7 +64,7 @@ export default {
       'menuList': 'menuList',
       'showMenuId': 'showMenuId',
       'goodsList': (state) => {
-        console.log(state.showMenuId, state)
+        console.log(state.menuItemList[state.showMenuId])
         return state.showMenuId && state.menuItemList[state.showMenuId] ? state.menuItemList[state.showMenuId] : []
       }
     })
@@ -185,7 +185,7 @@ export default {
         padding: 0rpx 20rpx;
         position: relative;
         & > div{
-          margin-bottom: 6rpx;
+          margin-bottom: 6rpx;;
         }
         .goods_name{
           height: 40rpx;
@@ -196,11 +196,17 @@ export default {
           height: 24rpx;
           line-height: 24rpx;
           font-size: 24rpx;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis
         }
         .item_default{
           height: 30rpx;
           line-height: 30rpx;
           font-size: 24rpx;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis
         }
         .item_price{
           height: 40rpx;
